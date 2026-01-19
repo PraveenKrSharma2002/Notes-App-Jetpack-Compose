@@ -49,6 +49,9 @@ com.example.notesapp
 
 
 ---
+📸 Screenshots
+
+screenshots of the app here (Home Screen, Add Note Dialog).
 
 ## ▶️ How to Run
 
