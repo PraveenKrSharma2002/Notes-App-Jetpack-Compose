@@ -1,30 +1,30 @@
-# 📝 Notes App – Jetpack Compose
+# Notes App – Jetpack Compose
 
 A clean and modern **Notes Application** developed using **Jetpack Compose** and **Kotlin**.  
 The project focuses on simple UI, proper state management, and clean architecture using MVVM.
 
 ---
 
-## ✨ Overview
+##  Overview
 
 This app allows users to create and view notes in a minimal and user-friendly interface.  
 It is built entirely with **Jetpack Compose (Material 3)** and demonstrates modern Android development practices.
 
 ---
 
-## 🚀 Features
+##  Features
 
-- ➕ Add new notes using a dialog
-- 📄 View notes in a scrollable list
-- 🎨 Modern UI with Material 3
-- 🔘 Floating Action Button (FAB)
-- 🧠 MVVM architecture
-- 🔄 State management using ViewModel & StateFlow
-- 📱 Responsive UI
+-  Add new notes using a dialog
+-  View notes in a scrollable list
+-  Modern UI with Material 3
+-  Floating Action Button (FAB)
+-  MVVM architecture
+-  State management using ViewModel & StateFlow
+-  Responsive UI
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - **Language:** Kotlin  
 - **UI:** Jetpack Compose (Material 3)  
@@ -34,7 +34,7 @@ It is built entirely with **Jetpack Compose (Material 3)** and demonstrates mode
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 com.example.notesapp
 │
@@ -49,11 +49,11 @@ com.example.notesapp
 
 
 ---
-📸 Screenshots
+ Screenshots
 
 screenshots of the app here (Home Screen, Add Note Dialog).
 
-## ▶️ How to Run
+##  How to Run
 
 1. Clone the repository:
    ```bash
@@ -68,7 +68,7 @@ Open the project in Android Studio
 
 5. Physical Android device
 
-🎯 Learning Outcomes
+ Learning Outcomes
 
 Building UI with Jetpack Compose
 
@@ -80,19 +80,19 @@ Creating reusable composable functions
 
 Writing clean and readable Compose code
 
-🔮 Future Enhancements
+ Future Enhancements
 
-✏️ Edit notes
+ Edit notes
 
-🗑 Delete notes
+ Delete notes
 
-💾 Room database integration
+ Room database integration
 
-🌙 Dark mode
+ Dark mode
 
-🎬 Animations
+ Animations
 
-👨‍💻 Author
+ Author
 
 Praveen Kumar Sharma
 
