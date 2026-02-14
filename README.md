@@ -14,9 +14,9 @@ It is fully built with Jetpack Compose and follows a clean and scalable architec
 
 ##  Features
 
--**Add new notes using a dialog
--**View notes in a scrollable list
--Edit existing notes
+- **Add new notes using a dialog**
+- **View notes in a scrollable list**
+- **Edit existing notes**
 -Delete notes
 -Modern Material 3 UI
 -Floating Action Button (FAB)
