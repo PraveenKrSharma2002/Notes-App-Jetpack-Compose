@@ -1,26 +1,28 @@
 # Notes App – Jetpack Compose
 
-A clean and modern **Notes Application** developed using **Jetpack Compose** and **Kotlin**.  
-The project focuses on simple UI, proper state management, and clean architecture using MVVM.
+A clean, modern, and user-friendly Notes Application built using Jetpack Compose and Kotlin.
+This project demonstrates modern Android development practices, including Material 3 UI, MVVM architecture, and StateFlow-based state management.
 
 ---
 
 ##  Overview
 
-This app allows users to create and view notes in a minimal and user-friendly interface.  
-It is built entirely with **Jetpack Compose (Material 3)** and demonstrates modern Android development practices.
+This app allows users to create, update, and delete notes in a minimal and elegant interface.
+It is fully built with Jetpack Compose and follows a clean and scalable architecture.
 
 ---
 
 ##  Features
 
--  Add new notes using a dialog
--  View notes in a scrollable list
--  Modern UI with Material 3
--  Floating Action Button (FAB)
--  MVVM architecture
--  State management using ViewModel & StateFlow
--  Responsive UI
+✅ Add new notes using a dialog
+✅ View notes in a scrollable list
+✅ Edit existing notes
+✅ Delete notes
+✅ Modern Material 3 UI
+✅ Floating Action Button (FAB)
+✅ MVVM architecture
+✅ State management using ViewModel & StateFlow
+✅ Clean & responsive UI
 
 ---
 
@@ -50,6 +52,8 @@ com.example.notesapp
 
 ---
  Screenshots
+![Home Screen](screenshots/home1.png)
+![Dailog Screen](screenshots/dialog.png)
 
 screenshots of the app here (Home Screen, Add Note Dialog).
 
