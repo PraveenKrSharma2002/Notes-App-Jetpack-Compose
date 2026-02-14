@@ -98,7 +98,7 @@ Writing clean and readable Compose code
 
 **Author**
 
-**Praveen Kumar Sharma*
+*Praveen Kumar Sharma*
 
 GitHub: PraveenKrSharma2002
 
