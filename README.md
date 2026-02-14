@@ -17,12 +17,12 @@ It is fully built with Jetpack Compose and follows a clean and scalable architec
 - **Add new notes using a dialog**
 - **View notes in a scrollable list**
 - **Edit existing notes**
--Delete notes
--Modern Material 3 UI
--Floating Action Button (FAB)
--MVVM architecture
--State management using ViewModel & StateFlow
--Clean & responsive UI
+- **Delete notes**
+- **Modern Material 3 UI**
+- **Floating Action Button (FAB)**
+- **MVVM architecture**
+- **State management using ViewModel & StateFlow**
+- **Clean & responsive UI**
 
 ---
 
@@ -38,7 +38,7 @@ It is fully built with Jetpack Compose and follows a clean and scalable architec
 
 ##  Project Structure
 
-com.example.notesapp
+**com.example.notesapp
 │
 ├── MainActivity.kt // App entry point & UI
 ├── Note.kt // Data model
@@ -47,7 +47,7 @@ com.example.notesapp
 └── ui.theme
 ├── Color.kt
 ├── Theme.kt
-└── Type.kt
+└── Type.kt**
 
 
 ---
@@ -96,9 +96,9 @@ Writing clean and readable Compose code
 
  Animations
 
- Author
+**Author**
 
-Praveen Kumar Sharma
+**Praveen Kumar Sharma*
 
 GitHub: PraveenKrSharma2002
 
