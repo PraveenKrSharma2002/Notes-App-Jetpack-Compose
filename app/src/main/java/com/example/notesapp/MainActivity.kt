@@ -4,187 +4,216 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.notesapp.data.entity.NoteEntity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NotesApp()
+            val viewModel: NotesViewModel = viewModel()
+            NotesScreen(viewModel)
         }
     }
 }
-@Preview(showBackground = true)
-@OptIn(ExperimentalMaterial3Api::class)
+
+/* ---------------- SCREEN ---------------- */
+
 @Composable
-fun NotesApp(viewModel: NotesViewModel = viewModel()) {
+fun NotesScreen(viewModel: NotesViewModel) {
 
     val notes by viewModel.notes.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
+
+    NotesScreenUI(
+        notes = notes,
+        onAdd = viewModel::addNote,
+        onDelete = viewModel::deleteNote,
+        onUpdate = viewModel::updateNote
+    )
+}
+
+/* ---------------- UI ---------------- */
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NotesScreenUI(
+    notes: List<NoteEntity>,
+    onAdd: (String, String) -> Unit,
+    onDelete: (NoteEntity) -> Unit,
+    onUpdate: (NoteEntity) -> Unit
+) {
+    var showAddDialog by remember { mutableStateOf(false) }
+    var editNote by remember { mutableStateOf<NoteEntity?>(null) }
 
     Scaffold(
         containerColor = Color(0xFF9CCBCB),
+
         topBar = {
             CenterAlignedTopAppBar(
-                title = {Box(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xFFFAFAFA),
-                            shape = RoundedCornerShape(20.dp)
-                        )
-                        .padding(horizontal = 16.dp, vertical = 6.dp)
-                ) {
-
-                    Text(
-                        "My Notes",
-                        fontSize = 22.sp,
-
-                        fontWeight = FontWeight.Bold
-                    )}
-                }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                   // titleContentColor = Color.Red,
+                title = {
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                Color.White,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 6.dp)
+                    ) {
+                        Text("My Notes")
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color(0xFF9CCBCB)
-
-               )
+                )
             )
-
         },
+
         floatingActionButton = {
-            FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+            FloatingActionButton(
+                onClick = { showAddDialog = true },
+                containerColor = Color.White
+            ) {
+                Icon(Icons.Default.Edit, contentDescription = null)
             }
         }
-    ) { innerPadding ->
+    ) { padding ->
+
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+                .padding(padding)
+                .padding(horizontal = 10.dp, vertical = 6.dp)
         ) {
             items(notes) { note ->
-                NoteItem(note)
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp),
+                    colors = CardDefaults.cardColors(Color.White),
+                    elevation = CardDefaults.cardElevation(6.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Column(modifier = Modifier.padding(14.dp)) {
+
+                        Text(
+                            note.title,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Spacer(Modifier.height(4.dp))
+
+                        Text(
+                            note.description,
+                            color = Color.DarkGray,
+                            maxLines = 2
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+
+                            IconButton(onClick = { editNote = note }) {
+                                Icon(Icons.Default.Edit, contentDescription = null)
+                            }
+
+                            IconButton(onClick = { onDelete(note) }) {
+                                Icon(Icons.Default.Delete, contentDescription = null)
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
-    if (showDialog) {
-        AddNoteDialog(
-            onAdd = { title, body ->
-                viewModel.addNote(title, body)
-                showDialog = false
-            },
-            onDismiss = { showDialog = false }
-        )
-    }
 
-}
-
-@Composable
-fun NoteItem(note: Note) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            Text(
-                text = note.title,
-                fontWeight = FontWeight.Bold
+        if (showAddDialog) {
+            NoteDialog(
+                titleText = "",
+                descText = "",
+                dialogTitle = "Add Note",
+                onDismiss = { showAddDialog = false },
+                onSave = { t, d ->
+                    onAdd(t, d)
+                    showAddDialog = false
+                }
             )
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = note.body,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+        }
+
+        editNote?.let { note ->
+            NoteDialog(
+                titleText = note.title,
+                descText = note.description,
+                dialogTitle = "Update Note",
+                onDismiss = { editNote = null },
+                onSave = { t, d ->
+                    onUpdate(note.copy(title = t, description = d))
+                    editNote = null
+                }
             )
         }
     }
 }
 
+/* ---------------- DIALOG ---------------- */
+
 @Composable
-fun AddNoteDialog(
-    onAdd: (String, String) -> Unit,
-    onDismiss: () -> Unit
+fun NoteDialog(
+    titleText: String,
+    descText: String,
+    dialogTitle: String,
+    onDismiss: () -> Unit,
+    onSave: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var body by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf(titleText) }
+    var desc by remember { mutableStateOf(descText) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         shape = RoundedCornerShape(22.dp),
         containerColor = Color(0xFFF4EFFA),
+        confirmButton = {},
 
         title = {
-            Text(
-                "Add Note",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Text(dialogTitle, style = MaterialTheme.typography.titleLarge)
         },
+
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Title") },
-                    modifier = Modifier.fillMaxWidth()
+                    label = { Text("Title") }
                 )
 
                 OutlinedTextField(
-                    value = body,
-                    onValueChange = { body = it },
-                    label = { Text("Body") },
-                    modifier = Modifier.fillMaxWidth(),
+                    value = desc,
+                    onValueChange = { desc = it },
+                    label = { Text("Description") },
                     minLines = 3
                 )
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = { onAdd(title, body) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Save", fontWeight = FontWeight.Bold)
+
+                Button(
+                    onClick = {
+                        if (title.isNotBlank()) onSave(title, desc)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Save")
+                }
             }
         }
     )

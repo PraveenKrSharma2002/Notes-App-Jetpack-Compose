@@ -1,16 +1,53 @@
 package com.example.notesapp
 
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.notesapp.data.database.NoteDatabase
+import com.example.notesapp.data.entity.NoteEntity
+import com.example.notesapp.data.repository.NoteRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class NotesViewModel : ViewModel() {
+class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _notes = MutableStateFlow<List<Note>>(emptyList())
-    val notes: StateFlow<List<Note>> = _notes
+    // Database → DAO → Repository
+    private val noteDao = NoteDatabase
+        .getDatabase(application)
+        .noteDao()
 
-    fun addNote(title: String, body: String) {
-        val newNote = Note(title = title, body = body)
-        _notes.value = listOf(newNote) + _notes.value
+    private val repository = NoteRepository(noteDao)
+
+    // READ (auto update UI)
+    val notes = repository.allNotes.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
+
+    // CREATE
+    fun addNote(title: String, description: String) {
+        viewModelScope.launch {
+            repository.insert(
+                NoteEntity(
+                    title = title,
+                    description = description
+                )
+            )
+        }
+    }
+
+    fun updateNote(note: NoteEntity) {
+        viewModelScope.launch {
+            repository.update(note)
+        }
+    }
+
+    // DELETE
+    fun deleteNote(note: NoteEntity) {
+        viewModelScope.launch {
+            repository.delete(note)
+        }
     }
 }
